@@ -1,43 +1,13 @@
-#include <cstdint>
 #include <iostream>
+#define SHOW(arg) std::cout << arg << std::endl;
 
-using size = std::size_t;
-using u64 = uint64_t;
+std::size_t calculate_alignment(std::size_t offset, std::size_t align) {
+  return static_cast<int>(offset / align);
+}
 
-class ArenaAllocator {
-private:
-  // A pointer to the correct offset into the arena
-  std::byte *base;
-  size capacity;
-  size offset;
+int main() {
 
-  size calculate_alignment(size offset, size align) {
-    return static_cast<int>(offset / align);
-  }
-
-public:
-  ArenaAllocator() = default;
-
-  ArenaAllocator *create_arena(size capacity) {
-    ArenaAllocator *ptr = static_cast<ArenaAllocator *>(operator new(capacity));
-
-    return ptr;
-  }
-
-  void arena_destroy(ArenaAllocator *ptr) { operator delete(ptr); }
-
-  // TODO
-  void *allocate(size n, size alignment) {
-
-    size aligned = offset + calculate_alignment(this->offset, alignment);
-
-    if (aligned + n > this->capacity)
-      throw;
-
-    // Move offset to the end of the new allocated block
-    this->offset = aligned + n;
-
-    // Return a pointer to the start of the new allocated block
-    return static_cast<void *>(base + aligned + n);
-  }
-};
+  std::size_t f = calculate_alignment(16, alignof(int));
+  std::cout << 13 + (8 - 13 % 8) << std::endl;
+  return 0;
+}
