@@ -1,13 +1,14 @@
 CXX      := g++
 CXXFLAGS := -std=c++20 -Wall -Wextra -O2 -g
+INCLUDES := -Iinclude
 
-SRC  := main.cpp
-BIN  := main
+SRC := src/arena_allocator.cpp main.cpp
+BIN := main
 
 all: $(BIN)
 
 $(BIN): $(SRC)
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRC) -o $@
 
 run: $(BIN)
 	./$(BIN)
@@ -15,3 +16,4 @@ run: $(BIN)
 clean:
 	rm -f $(BIN)
 
+.PHONY: all run clean
