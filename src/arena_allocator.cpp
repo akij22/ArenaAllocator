@@ -16,12 +16,11 @@ size calculate_alignment(size offset, size align) noexcept {
 ArenaAllocator::ArenaAllocator(size dimension)
     : base(static_cast<std::byte *>(::operator new(dimension))),
       capacity(dimension), offset(0) {
-  if (dimension == 0) {
+  if (dimension == 0)
     throw std::invalid_argument("ArenaAllocator capacity must be > 0");
-  }
 }
 
-ArenaAllocator::~ArenaAllocator() { destroy_arena(); }
+ArenaAllocator::~ArenaAllocator() { destroy_arena(this); }
 
 void *ArenaAllocator::allocate(size n, size alignment) {
   const size padding = calculate_alignment(this->offset, alignment);
@@ -47,15 +46,13 @@ size ArenaAllocator::remaining() const noexcept {
   return this->capacity - this->offset;
 }
 
-void ArenaAllocator::destroy_arena() noexcept {
-  ::operator delete(this->base);
-  this->base = nullptr;
-  this->capacity = 0;
-  this->offset = 0;
-}
-
 std::unique_ptr<ArenaAllocator> create_arena(size capacity) {
   return std::unique_ptr<ArenaAllocator>(new ArenaAllocator(capacity));
+}
+
+void destroy_arena(ArenaAllocator *arena) noexcept {
+  ::operator delete(arena->get_base());
+  ::operator delete(arena);
 }
 
 } // namespace arena
