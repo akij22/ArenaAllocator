@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# C/C++ build artifacts
+*.o
+*.dSYM/
+
+# Local binaries in this repo
+/ArenaAllocator
+/main
+/tests/arena_allocator_tests
+/tests/arena_lifecycle_test
