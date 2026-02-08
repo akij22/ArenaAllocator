@@ -27,6 +27,15 @@ public:
   size used() const noexcept;
   size remaining() const noexcept;
 
+  // Builds an object using `.allocate` method
+  template <typename T, typename... Args> T *make(Args... args) {
+    void *mem = allocate(sizeof(T), alignof(T));
+    if (mem)
+      return new (mem) T(std::forward<Args>(args)...);
+    else
+      return nullptr;
+  }
+
 private:
   std::byte *base;
   size capacity;
