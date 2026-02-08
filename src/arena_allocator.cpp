@@ -20,7 +20,7 @@ ArenaAllocator::ArenaAllocator(size dimension)
     throw std::invalid_argument("ArenaAllocator capacity must be > 0");
 }
 
-ArenaAllocator::~ArenaAllocator() { destroy_arena(this); }
+ArenaAllocator::~ArenaAllocator() { operator delete(this->base); }
 
 void *ArenaAllocator::allocate(size n, size alignment) {
   const size padding = calculate_alignment(this->offset, alignment);
