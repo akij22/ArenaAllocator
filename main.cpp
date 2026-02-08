@@ -1,4 +1,4 @@
-#include "arena_allocator.hpp"
+#include "include/arena_allocator.hpp"
 
 #include <iostream>
 #include <new>
@@ -20,9 +20,8 @@ int main() {
   example->x = 3.14;
   example->y = 21;
 
-  auto *message_buffer =
-      static_cast<std::string *>(
-          arena->allocate(sizeof(std::string), alignof(std::string)));
+  auto *message_buffer = static_cast<std::string *>(
+      arena->allocate(sizeof(std::string), alignof(std::string)));
   new (message_buffer) std::string("Arena allocators are fast!");
 
   std::cout << *value << ", " << example->x << ", " << example->y << "\n";
@@ -32,8 +31,8 @@ int main() {
 
   message_buffer->~basic_string();
   arena->reset();
-  std::cout << "after reset -> used=" << arena->used() << " remaining="
-            << arena->remaining() << "\n";
+  std::cout << "after reset -> used=" << arena->used()
+            << " remaining=" << arena->remaining() << "\n";
 
   return 0;
 }
