@@ -79,6 +79,4 @@ g++ -std=c++20 -Wall -Wextra -O2 -g -Iinclude src/arena_allocator.cpp example_us
 - Objects created with placement `new` should have destructors called manually before `reset()`.
 - Use `used()` and `remaining()` to monitor memory pressure while allocating.
 
-## License
 
-No license file is currently included in this repository.
