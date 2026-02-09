@@ -62,6 +62,7 @@ arena_allocator/
 ```bash
 make        # Build main executable
 make run    # Build and run main
+make example # Build and run example_use.cpp
 make clean  # Remove main executable
 ```
 

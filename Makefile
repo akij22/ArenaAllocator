@@ -5,6 +5,8 @@ INCLUDES := -Iinclude
 SRC := src/arena_allocator.cpp main.cpp
 BIN := main
 ARENA_SRC := src/arena_allocator.cpp
+EXAMPLE_SRC := example_use.cpp
+EXAMPLE_BIN := ArenaAllocator
 
 TEST_DIR := tests
 UNIT_TEST_SRC := $(TEST_DIR)/test_arena_allocator.cpp
@@ -17,8 +19,14 @@ all: $(BIN)
 $(BIN): $(SRC)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRC) -o $@
 
+$(EXAMPLE_BIN): $(ARENA_SRC) $(EXAMPLE_SRC) include/arena_allocator.hpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(ARENA_SRC) $(EXAMPLE_SRC) -o $@
+
 run: $(BIN)
 	./$(BIN)
+
+example: $(EXAMPLE_BIN)
+	./$(EXAMPLE_BIN)
 
 $(UNIT_TEST_BIN): $(ARENA_SRC) $(UNIT_TEST_SRC) include/arena_allocator.hpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(ARENA_SRC) $(UNIT_TEST_SRC) -o $@
@@ -35,6 +43,6 @@ test-lifecycle: $(LIFECYCLE_TEST_BIN)
 test-all: test test-lifecycle
 
 clean:
-	rm -f $(BIN) $(UNIT_TEST_BIN) $(LIFECYCLE_TEST_BIN)
+	rm -f $(BIN) $(EXAMPLE_BIN) $(UNIT_TEST_BIN) $(LIFECYCLE_TEST_BIN)
 
-.PHONY: all run test test-lifecycle test-all clean
+.PHONY: all run example test test-lifecycle test-all clean

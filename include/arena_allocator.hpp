@@ -11,6 +11,7 @@ using size = std::size_t;
 size calculate_alignment(size offset, size align) noexcept;
 
 class ArenaAllocator {
+
 public:
   explicit ArenaAllocator(size capacity);
   ~ArenaAllocator();
@@ -27,7 +28,8 @@ public:
   size used() const noexcept;
   size remaining() const noexcept;
 
-  // Builds an object using `.allocate` method
+  // Builds an object with type T using `.allocate` method
+  // It returns a pointer to the T object (T*)
   template <typename T, typename... Args> T *make(Args... args) {
     void *mem = allocate(sizeof(T), alignof(T));
     if (mem)
